@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8">
+  <title>📔 Welcome to Your Diary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+</head>
+<body class="bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-100 min-h-screen text-gray-800 dark:bg-gray-900 dark:text-white transition-colors">
+
+  <div class="max-w-3xl mx-auto p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-4xl font-bold bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 px-4 py-2 rounded shadow animate-pulse">
+        📔 Welcome to Your Diary
+      </h1>
+      <button id="modeToggle" onclick="toggleDarkMode()" class="text-lg px-4 py-2 border border-indigo-500 text-indigo-500 hover:bg-indigo-500 hover:text-white dark:border-indigo-300 dark:text-indigo-300 dark:hover:bg-indigo-300 dark:hover:text-black rounded transition">
+        🌙 Dark Mode
+      </button>
+    </div>
+
+    <!-- Entry Form -->
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg mb-10">
+      <form method="POST" action="/add" class="space-y-4">
+        <input type="text" name="title" placeholder="Entry title" required
+               class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+        <textarea name="content" placeholder="Write your thoughts..." required rows="4"
+                  class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"></textarea>
+        <select name="category"
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600">
+          <option value="Personal">Personal</option>
+          <option value="Work">Work</option>
+          <option value="Dreams">Dreams</option>
+        </select>
+        <button type="submit"
+                class="w-full bg-indigo-500 text-white font-semibold py-2 px-4 rounded hover:bg-indigo-600 transition">
+          💾 Save Entry
+        </button>
+      </form>
+    </div>
+
+    <!-- Search -->
+    <form method="GET" action="/search" class="mb-10 flex gap-3">
+      <input type="text" name="q" placeholder="Search entries..."
+             class="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+      <button type="submit"
+              class="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition">🔍 Search</button>
+    </form>
+
+    <!-- Entries -->
+    <div class="space-y-6">
+      <h2 class="text-2xl font-semibold text-indigo-600 dark:text-indigo-300">📝 Your Entries</h2>
+      {% for e in entries %}
+        <div class="p-4 rounded-lg shadow-md bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white relative">
+          <h3 class="text-xl font-bold">{{ e[1] }}</h3>
+          <p class="mt-2">{{ e[2] }}</p>
+          <div class="mt-2 text-sm opacity-90">🕒 {{ e[4] }}</div>
+
+          <!-- Mood Tag -->
+<<span class="absolute top-4 right-4 inline-block px-3 py-1 rounded-full text-sm font-semibold"
+style="background-color: {% if e[3] == 'Work' %}#facc15{% elif e[3] == 'Dreams' %}#6ee7b7{% elif e[3] == 'Personal' %}#c4b5fd{% else %}#a3a3a3{% endif %};">
+{% if e[3] == 'Work' %}💼
+{% elif e[3] == 'Dreams' %}💭
+{% elif e[3] == 'Personal' %}📝
+{% else %}❓{% endif %} {{ e[3] or 'Unknown' }}
+</span>
+
+{% if e[3] == 'Work' %}💼
+{% elif e[3] == 'Dreams' %}💭
+{% elif e[3] == 'Personal' %}📝
+{% else %}❓{% endif %} {{ e[3] or 'Unknown' }}
+</span>
+
+
+          <!-- Edit Button -->
+          <button onclick="openEditModal('{{ e[0] }}', `{{ e[1] }}`, `{{ e[2] }}`, '{{ e[3] }}')"
+                  class="mt-4 px-4 py-1 bg-white text-black rounded hover:bg-gray-200">✏️ Edit</button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Dark Mode Script -->
+  <script>
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      document.getElementById('modeToggle').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+
+    window.onload = () => {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.getElementById('modeToggle').innerText = '☀️ Light Mode';
+      }
+    };
+  </script>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white dark:bg-gray-800 dark:text-white p-6 rounded-lg w-96">
+      <h2 class="text-xl font-bold mb-4">Edit Entry</h2>
+      <form method="POST" action="/edit">
+        <input type="hidden" name="id" id="edit-id">
+        <input type="text" name="title" id="edit-title" class="w-full p-2 mb-3 border rounded" required>
+        <textarea name="content" id="edit-content" class="w-full p-2 mb-3 border rounded" required></textarea>
+        <select name="category" id="edit-category" class="w-full p-2 mb-3 border rounded">
+          <option value="Personal">Personal</option>
+          <option value="Work">Work</option>
+          <option value="Dreams">Dreams</option>
+        </select>
+        <div class="flex justify-end">
+          <button type="button" onclick="closeEditModal()" class="mr-2 px-4 py-1 border rounded">Cancel</button>
+          <button type="submit" class="px-4 py-1 bg-blue-500 text-white rounded">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Scripts -->
+  <script>
+    function openEditModal(id, title, content, category) {
+      document.getElementById('edit-id').value = id;
+      document.getElementById('edit-title').value = title;
+      document.getElementById('edit-content').value = content;
+      document.getElementById('edit-category').value = category;
+      document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>

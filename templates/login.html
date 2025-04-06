@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - My Diary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Button border animation */
+    .animated-border {
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s ease;
+    }
+
+    .animated-border::before,
+    .animated-border::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background-color: #3b82f6;
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .animated-border::before {
+      top: 0;
+      left: 0;
+      transform-origin: left;
+    }
+
+    .animated-border::after {
+      bottom: 0;
+      right: 0;
+      transform-origin: right;
+    }
+
+    .animated-border:hover::before,
+    .animated-border:hover::after {
+      transform: scaleX(1);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 h-screen flex items-center justify-center">
+
+  <div class="bg-white dark:bg-gray-900 p-10 rounded-lg shadow-2xl w-full max-w-md text-center">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-6 animate-bounce">🔐 Welcome Back</h1>
+
+    <form method="POST" action="/" class="space-y-5">
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+
+      <button
+        type="submit"
+        class="animated-border w-full px-4 py-2 border border-blue-600 text-blue-600 font-semibold rounded hover:bg-blue-600 hover:text-white transition duration-300"
+      >
+        Login
+      </button>
+    </form>
+
+    <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">Don't have an account? 
+      <a href="/register" class="text-blue-200 underline hover:text-white transition">Register</a>
+    </p>
+  </div>
+
+</body>
+</html>

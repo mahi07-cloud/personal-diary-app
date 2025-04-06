@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+</head>
+<body class="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 min-h-screen flex flex-col justify-center items-center text-gray-800 dark:text-white p-6">
+
+  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 w-full max-w-2xl text-center">
+    <h1 class="text-3xl font-bold mb-4">🔍 Search Results for "<span class="text-indigo-600 dark:text-indigo-300">{{ keyword }}</span>"</h1>
+
+    {% if results %}
+      <div class="space-y-6">
+        {% for result in results %}
+          <div class="bg-gradient-to-r from-indigo-200 to-purple-200 dark:from-gray-700 dark:to-gray-600 p-4 rounded shadow">
+            <h2 class="text-xl font-semibold">{{ result[0] }} <span class="text-sm text-gray-600 dark:text-gray-300">({{ result[2] }})</span></h2>
+            <p class="mt-2">{{ result[1] }}</p>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">📅 {{ result[3] }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-lg text-gray-600 dark:text-gray-300 mt-6">No entries found.</p>
+    {% endif %}
+
+    <div class="mt-8">
+      <a href="/dashboard" class="inline-block px-6 py-2 border border-indigo-500 text-indigo-500 dark:border-indigo-300 dark:text-indigo-300 rounded hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-300 dark:hover:text-black transition">
+        ← Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

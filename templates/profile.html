@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Profile</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+  <h2>Welcome, {{ username }}</h2>
+  <p>Total Diary Entries: {{ entry_count }}</p>
+  <a href="/dashboard">← Back to Dashboard</a>
+</body>
+</html>
