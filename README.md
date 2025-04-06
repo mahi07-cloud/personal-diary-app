@@ -22,9 +22,5 @@ A modern and minimal web-based diary app built with Python and Flask. This appli
 - **Database**: SQLite
 - **Security**: Password hashing with `werkzeug.security`
 
-## 📸 Screenshots
 
-*(Add your screenshots here if available)*
-
-## 📁 Project Structure
 
