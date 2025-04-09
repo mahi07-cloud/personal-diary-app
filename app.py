@@ -1,3 +1,8 @@
+from init_db import init_db
+
+# Initialize database when app starts
+init_db()
+
 from flask import Flask, jsonify, render_template, request, redirect, session
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
