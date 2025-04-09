@@ -1,0 +1,15 @@
+# Ignore virtual environment
+venv/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore database
+diary.db
+
+# Ignore VSCode settings (optional)
+.vscode/
+
+# Ignore node_modules if using frontend packages
+node_modules/
