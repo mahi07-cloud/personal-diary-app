@@ -28,7 +28,7 @@ A secure, full-stack web application designed for personal journaling. Built wit
 Open your terminal and run:
 ```bash
 # Clone the repository
-git clone <your-repository-link>
+git clone https://github.com/mahi07-cloud/personal-diary-app.git
 cd personal-diary-app
 
 # Install Backend Dependencies
